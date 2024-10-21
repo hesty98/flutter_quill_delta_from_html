@@ -75,8 +75,11 @@ class DefaultHtmlToOperations extends HtmlOperations {
     //this store into all nodes into a paragraph, and
     //ensure getting all attributes or tags into a paragraph
     for (final node in nodes) {
-      processNode(node, inlineAttributes, delta,
-          addSpanAttrs: false, customBlocks: customBlocks);
+      bool addAttributes = false;
+      if(node is dom.Element){
+        addAttributes = (node as dom.Element).isSpan && (node as dom.Element).attributes.isNotEmpty;
+      }
+      processNode(node, inlineAttributes, delta, addSpanAttrs: addAttributes, customBlocks: customBlocks);
     }
 
     return delta.toList();
